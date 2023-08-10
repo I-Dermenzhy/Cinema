@@ -19,6 +19,8 @@ internal sealed class GenreValidator : ChainValidator<Movie>
 
     public override bool Validate(Movie movie)
     {
+        ArgumentNullException.ThrowIfNull(movie, nameof(movie));
+
         string genre = movie.Genre;
 
         if (string.IsNullOrWhiteSpace(genre))

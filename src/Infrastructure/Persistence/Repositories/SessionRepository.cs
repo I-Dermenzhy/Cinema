@@ -15,7 +15,8 @@ public sealed class SessionRepository : ISessionRepository
 {
     private readonly CinemaDbContext _dbContext;
 
-    public SessionRepository(CinemaDbContext dbContext) => _dbContext = dbContext;
+    public SessionRepository(CinemaDbContext dbContext) =>
+        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
     public async Task<IEnumerable<Session>> GetAllAsync() =>
         await _dbContext.Sessions
@@ -36,6 +37,8 @@ public sealed class SessionRepository : ISessionRepository
 
     public async Task<Guid> InsertAsync(Session session)
     {
+        ArgumentNullException.ThrowIfNull(session, nameof(session));
+
         await _dbContext.Sessions.AddAsync(session);
         await AddRelatedEntitiesAsync(session);
 
@@ -54,12 +57,16 @@ public sealed class SessionRepository : ISessionRepository
 
     public async Task RemoveAsync(Session session)
     {
+        ArgumentNullException.ThrowIfNull(session, nameof(session));
+
         _dbContext.Sessions.Remove(session);
         await _dbContext.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Session session)
     {
+        ArgumentNullException.ThrowIfNull(session, nameof(session));
+
         if (!_dbContext.Sessions.Contains(session))
             throw new ModelNotFoundException<Session>(session);
 

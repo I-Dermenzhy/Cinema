@@ -28,46 +28,38 @@ public class TicketTests
     [Test]
     public void AddDiscount_TotalDiscountExceeds1_ThrowsDiscountExceededException()
     {
-        // Arrange
         Discount initialDiscount = new(0.8, "sample1");
         _ticket.AddDiscount(initialDiscount);
 
         Discount exceedingDiscount = new(0.4, "sample2");
 
-        // Act and Assert
         Assert.That(() => _ticket.AddDiscount(exceedingDiscount), Throws.InstanceOf<DiscountExceededException>());
     }
 
     [Test]
     public void AddDiscount_TotalDiscountIsLessThan1_AddsDiscount()
     {
-        // Arrange
         Discount initialDiscount = new(0.3, "sample1");
         _ticket.AddDiscount(initialDiscount);
 
         Discount newDiscount = new(0.4, "sample2");
 
-        // Act
         _ticket.AddDiscount(newDiscount);
 
-        // Assert
         Assert.That(_ticket.Discounts, Contains.Item(newDiscount));
     }
 
     [Test]
     public void RemoveDiscount_WhenCalled_RemovesExistingDiscount()
     {
-        // Arrange
         var discountMock1 = new Mock<Discount>();
         var discountMock2 = new Mock<Discount>();
 
         _ticket.AddDiscount(discountMock1.Object);
         _ticket.AddDiscount(discountMock2.Object);
 
-        // Act
         _ticket.RemoveDiscount(discountMock1.Object);
 
-        // Assert
         Assert.That(_ticket.Discounts, Does.Not.Contain(discountMock1.Object));
         Assert.That(_ticket.Discounts, Contains.Item(discountMock2.Object));
     }

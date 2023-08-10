@@ -3,6 +3,7 @@
 using Microsoft.Extensions.Logging;
 
 namespace Services.Validation;
+
 public interface IValidationChain<T, USelf>
     where T : IModel
     where USelf : IValidationChain<T, USelf>

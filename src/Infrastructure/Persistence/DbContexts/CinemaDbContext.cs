@@ -7,7 +7,10 @@ namespace Persistence.DbContexts;
 
 public sealed class CinemaDbContext : DbContext
 {
-    public CinemaDbContext(DbContextOptions<CinemaDbContext> options) : base(options) { }
+    public CinemaDbContext(DbContextOptions<CinemaDbContext> options) : base(options)
+    {
+        ArgumentNullException.ThrowIfNull(options, nameof(options));
+    }
 
     public DbSet<Client> Clients => Set<Client>();
     public DbSet<Discount> Discounts => Set<Discount>();

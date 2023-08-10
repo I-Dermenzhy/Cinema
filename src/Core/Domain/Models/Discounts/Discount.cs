@@ -9,16 +9,21 @@ public class Discount : IModel
 {
     private double _value;
 
-    public Discount() { }
+    public Discount()
+    {
+    }
 
     [SetsRequiredMembers]
     public Discount(double value, string description)
     {
+        if (string.IsNullOrWhiteSpace(description))
+            throw new ArgumentException($"'{nameof(description)}' cannot be null or whitespace.", nameof(description));
+
         Value = value;
         Description = description;
     }
 
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
     /// <summary>
     /// Gets or sets the description of the discount.

@@ -9,6 +9,9 @@ internal static class SessionQueryExtensions
 {
     public static IQueryable<Session> ApplyFilters(this IQueryable<Session> query, SessionFilters filters)
     {
+        ArgumentNullException.ThrowIfNull(query, nameof(query));
+        ArgumentNullException.ThrowIfNull(filters, nameof(filters));
+
         if (filters.Date.HasValue)
             query = query.Where(s => DateOnly.FromDateTime(s.Duration.Start) == filters.Date);
 
@@ -24,6 +27,10 @@ internal static class SessionQueryExtensions
         return query;
     }
 
-    public static IQueryable<Session> IncludeNavigationProperties(this IQueryable<Session> query) =>
-        query.Include(s => s.Movie);
+    public static IQueryable<Session> IncludeNavigationProperties(this IQueryable<Session> query)
+    {
+        ArgumentNullException.ThrowIfNull(query, nameof(query));
+
+        return query.Include(s => s.Movie);
+    }
 }

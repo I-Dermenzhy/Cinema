@@ -3,12 +3,15 @@
 using Microsoft.Extensions.Logging;
 
 namespace Services.Validation.MovieValidation;
+
 public sealed class MovieValidationChain : IValidationChain<Movie, MovieValidationChain>
 {
     private readonly List<ChainValidator<Movie>> _validators = new();
 
     public MovieValidationChain AddValidator(ChainValidator<Movie> validator)
     {
+        ArgumentNullException.ThrowIfNull(validator, nameof(validator));
+
         _validators.Add(validator);
         return this;
     }

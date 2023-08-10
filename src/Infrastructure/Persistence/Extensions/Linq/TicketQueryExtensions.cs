@@ -9,6 +9,9 @@ internal static class TicketQueryExtensions
 {
     public static IQueryable<Ticket> ApplyFilters(this IQueryable<Ticket> query, TicketFilters filters)
     {
+        ArgumentNullException.ThrowIfNull(query, nameof(query));
+        ArgumentNullException.ThrowIfNull(filters, nameof(filters));
+
         if (filters.Client is not null)
             query = query.Where(t => t.Client == filters.Client);
 
@@ -33,9 +36,14 @@ internal static class TicketQueryExtensions
         return query;
     }
 
-    public static IQueryable<Ticket> IncludeNavigationProperties(this IQueryable<Ticket> query) =>
-        query.Include(t => t.Session)
+    public static IQueryable<Ticket> IncludeNavigationProperties(this IQueryable<Ticket> query)
+    {
+        ArgumentNullException.ThrowIfNull(query, nameof(query));
+
+        return query
+            .Include(t => t.Session)
                 .ThenInclude(s => s.Movie)
             .Include(t => t.Seat)
             .Include(t => t.Discounts);
+    }
 }

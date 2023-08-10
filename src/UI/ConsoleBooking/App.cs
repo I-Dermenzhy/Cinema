@@ -1,13 +1,14 @@
 ﻿using ConsoleBooking.Extensions;
 
-using Contracts.PriceEvalution;
 using Contracts.Repositories;
 
 using Domain.Models;
+using Domain.PriceEvalution;
 
 using System.Text;
 
 namespace ConsoleBooking;
+
 internal class App
 {
     private readonly IClientRepository _clientRepository;
@@ -15,11 +16,11 @@ internal class App
     private readonly ISeatRepository _seatRepository;
     private readonly ITicketRepository _ticketRepository;
 
-    private readonly ITicketEvaluator _ticketEvaluator;
+    private readonly ITicketEvaluator<Ticket> _ticketEvaluator;
 
     public App(ITicketRepository ticketRepository, ISessionRepository sessionRepository,
         IClientRepository clientRepository, ISeatRepository seatRepository,
-        ITicketEvaluator ticketEvaluator)
+        ITicketEvaluator<Ticket> ticketEvaluator)
     {
         _ticketRepository = ticketRepository;
         _sessionRepository = sessionRepository;
@@ -130,7 +131,7 @@ internal class App
             price: 0
         );
 
-        ticket.Price = _ticketEvaluator.EvaluateCost(ticket);
+        //ticket.Price = _ticketEvaluator.EvaluateCost(ticket);
 
         DisplayTicketInformation(ticket);
 

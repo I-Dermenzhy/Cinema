@@ -6,13 +6,15 @@ public class SessionSeat : IModel
 {
     private bool _isBooked;
 
-    public SessionSeat() { }
+    public SessionSeat()
+    {
+    }
 
     [SetsRequiredMembers]
     public SessionSeat(Seat seat, Session session, bool isBooked = false)
     {
-        Seat = seat;
-        Session = session;
+        Seat = seat ?? throw new ArgumentNullException(nameof(seat));
+        Session = session ?? throw new ArgumentNullException(nameof(session));
 
         SeatId = seat.Id;
         SessionId = session.Id;
@@ -22,13 +24,13 @@ public class SessionSeat : IModel
 
     public event EventHandler<bool>? OnBookingChanged;
 
-    public Guid Id { get; set; }
+    public Guid Id { get; init; }
 
-    public required Seat Seat { get; set; }
-    public required Guid SeatId { get; set; }
+    public required Seat Seat { get; init; }
+    public required Guid SeatId { get; init; }
 
-    public required Session Session { get; set; }
-    public required Guid SessionId { get; set; }
+    public required Session Session { get; init; }
+    public required Guid SessionId { get; init; }
 
     public bool IsBooked
     {

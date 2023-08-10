@@ -1,4 +1,5 @@
 ﻿using Domain.Models;
+
 using Microsoft.Extensions.Logging;
 
 namespace Services.Validation.TicketValidation;
@@ -9,6 +10,8 @@ public sealed class TicketValidationChain : IValidationChain<Ticket, TicketValid
 
     public TicketValidationChain AddValidator(ChainValidator<Ticket> validator)
     {
+        ArgumentNullException.ThrowIfNull(validator, nameof(validator));
+
         _validators.Add(validator);
         return this;
     }

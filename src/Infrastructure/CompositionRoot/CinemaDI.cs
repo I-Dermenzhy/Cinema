@@ -2,6 +2,7 @@
 using Contracts.Repositories;
 
 using Domain.Models;
+using Domain.PriceEvalution;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,8 +29,7 @@ public static class CinemaDI
 
     public static IServiceCollection AddTicketPriceEvaluators(this IServiceCollection services) =>
         services.AddEvaluationConfiguration()
-            .AddTransient<ITicketEvaluator, TicketEvaluator<Ticket>>()
-            .AddTransient<ITicketEvaluator<Ticket>, TicketEvaluator<Ticket>>();
+            .AddTransient<ITicketEvaluator<Ticket>, TicketEvaluator>();
 
     private static IServiceCollection AddDbContext(this IServiceCollection services) =>
         services.AddDbContext<CinemaDbContext>(options =>
@@ -50,4 +50,3 @@ public static class CinemaDI
             .Build();
     }
 }
-

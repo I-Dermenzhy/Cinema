@@ -3,12 +3,15 @@
 using Microsoft.Extensions.Logging;
 
 namespace Services.Validation.SessionValidation;
+
 public sealed class SessionValidationChain : IValidationChain<Session, SessionValidationChain>
 {
     private readonly List<ChainValidator<Session>> _validators = new();
 
     public SessionValidationChain AddValidator(ChainValidator<Session> validator)
     {
+        ArgumentNullException.ThrowIfNull(validator, nameof(validator));
+
         _validators.Add(validator);
         return this;
     }

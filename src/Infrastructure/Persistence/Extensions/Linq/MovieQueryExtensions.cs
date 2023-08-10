@@ -7,6 +7,9 @@ internal static class MovieQueryExtensions
 {
     public static IQueryable<Movie> ApplyFilters(this IQueryable<Movie> query, MovieFilters filters)
     {
+        ArgumentNullException.ThrowIfNull(query, nameof(query));
+        ArgumentNullException.ThrowIfNull(filters, nameof(filters));
+
         if (!string.IsNullOrEmpty(filters.Title))
             query = query.Where(m => m.Title == filters.Title);
 

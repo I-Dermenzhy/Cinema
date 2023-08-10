@@ -15,7 +15,8 @@ public sealed class ClientRepository : IClientRepository
 {
     private readonly CinemaDbContext _dbContext;
 
-    public ClientRepository(CinemaDbContext dbContext) => _dbContext = dbContext;
+    public ClientRepository(CinemaDbContext dbContext) =>
+        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
     public async Task<IEnumerable<Client>> GetAllAsync() =>
         await _dbContext.Clients
@@ -36,6 +37,8 @@ public sealed class ClientRepository : IClientRepository
 
     public async Task<Guid> InsertAsync(Client client)
     {
+        ArgumentNullException.ThrowIfNull(client, nameof(client));
+
         _dbContext.Clients.Add(client);
 
         await AddRelatedEntitiesAsync(client);
@@ -55,6 +58,8 @@ public sealed class ClientRepository : IClientRepository
 
     public async Task RemoveAsync(Client client)
     {
+        ArgumentNullException.ThrowIfNull(client, nameof(client));
+
         _dbContext.Clients.Remove(client);
 
         await _dbContext.SaveChangesAsync();
@@ -62,6 +67,8 @@ public sealed class ClientRepository : IClientRepository
 
     public async Task UpdateAsync(Client client)
     {
+        ArgumentNullException.ThrowIfNull(client, nameof(client));
+
         if (!_dbContext.Clients.Contains(client))
             throw new ModelNotFoundException<Client>(client);
 

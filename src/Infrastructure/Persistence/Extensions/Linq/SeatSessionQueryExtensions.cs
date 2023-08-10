@@ -9,6 +9,9 @@ internal static class SessionSeatQueryExtensions
 {
     public static IQueryable<SessionSeat> ApplyFilters(this IQueryable<SessionSeat> query, SessionSeatFilters filters)
     {
+        ArgumentNullException.ThrowIfNull(query, nameof(query));
+        ArgumentNullException.ThrowIfNull(filters, nameof(filters));
+
         query = query.ApplySeatFilters(filters.SeatFilters);
         query = query.ApplySessionFilters(filters.SessionFilters);
 
@@ -24,10 +27,15 @@ internal static class SessionSeatQueryExtensions
         return query;
     }
 
-    public static IQueryable<SessionSeat> IncludeNavigationProperties(this IQueryable<SessionSeat> query) =>
-        query.Include(ss => ss.Seat)
-             .Include(ss => ss.Session)
+    public static IQueryable<SessionSeat> IncludeNavigationProperties(this IQueryable<SessionSeat> query)
+    {
+        ArgumentNullException.ThrowIfNull(query, nameof(query));
+
+        return query
+            .Include(ss => ss.Seat)
+            .Include(ss => ss.Session)
                 .ThenInclude(s => s.Movie);
+    }
 
     private static IQueryable<SessionSeat> ApplySeatFilters(this IQueryable<SessionSeat> query, SeatFilters? seatFilters)
     {

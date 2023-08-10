@@ -3,6 +3,7 @@
 using Microsoft.Extensions.Logging;
 
 namespace Services.Validation.SeatValidation;
+
 internal sealed class RowValidator : ChainValidator<Seat>
 {
     private readonly ILogger? _logger;
@@ -11,6 +12,8 @@ internal sealed class RowValidator : ChainValidator<Seat>
 
     public override bool Validate(Seat seat)
     {
+        ArgumentNullException.ThrowIfNull(seat, nameof(seat));
+
         int row = seat.Row;
 
         if (row <= 1)

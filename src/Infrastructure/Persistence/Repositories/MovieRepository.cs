@@ -15,7 +15,8 @@ public sealed class MovieRepository : IMovieRepository
 {
     private readonly CinemaDbContext _dbContext;
 
-    public MovieRepository(CinemaDbContext dbContext) => _dbContext = dbContext;
+    public MovieRepository(CinemaDbContext dbContext) =>
+        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
     public async Task<IEnumerable<Movie>> GetAllAsync() =>
     await _dbContext.Movies.ToListAsync();
@@ -31,6 +32,8 @@ public sealed class MovieRepository : IMovieRepository
 
     public async Task<Guid> InsertAsync(Movie movie)
     {
+        ArgumentNullException.ThrowIfNull(movie, nameof(movie));
+
         _dbContext.Movies.Add(movie);
         await _dbContext.SaveChangesAsync();
 
@@ -47,12 +50,16 @@ public sealed class MovieRepository : IMovieRepository
 
     public async Task RemoveAsync(Movie movie)
     {
+        ArgumentNullException.ThrowIfNull(movie, nameof(movie));
+
         _dbContext.Movies.Remove(movie);
         await _dbContext.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Movie movie)
     {
+        ArgumentNullException.ThrowIfNull(movie, nameof(movie));
+
         if (!_dbContext.Movies.Contains(movie))
             throw new ModelNotFoundException<Movie>(movie);
 

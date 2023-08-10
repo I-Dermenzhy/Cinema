@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.Text.RegularExpressions;
 
 namespace Services.Validation.ClientValidation;
+
 internal sealed partial class EmailValidator : ChainValidator<Client>
 {
     private readonly ILogger? _logger;
@@ -13,6 +14,8 @@ internal sealed partial class EmailValidator : ChainValidator<Client>
 
     public override bool Validate(Client client)
     {
+        ArgumentNullException.ThrowIfNull(client, nameof(client));
+
         string email = client.Email;
 
         if (string.IsNullOrWhiteSpace(email))

@@ -16,7 +16,6 @@ public sealed class SessionSeatTests
     [SetUp]
     public void SetUp()
     {
-        // Arrange
         _seatMock = new Mock<Seat>();
         _sessionMock = new Mock<Session>();
         _sessionSeat = new SessionSeat(_seatMock.Object, _sessionMock.Object);
@@ -25,30 +24,24 @@ public sealed class SessionSeatTests
     [Test]
     public void IsBooked_SetToDifferentValue_InvokesOnBookingChanged()
     {
-        // Arrange
         var invoked = false;
 
         _sessionSeat.OnBookingChanged += (sender, value) => invoked = true;
 
-        // Act
         _sessionSeat.IsBooked = true;
 
-        // Assert
         Assert.That(invoked, Is.True);
     }
 
     [Test]
     public void IsBooked_SetToSameValue_DoesNotInvokeOnBookingChanged()
     {
-        // Arrange
         var invoked = false;
 
         _sessionSeat.OnBookingChanged += (sender, value) => invoked = true;
 
-        // Act
         _sessionSeat.IsBooked = false;
 
-        // Assert
         Assert.That(invoked, Is.False);
     }
 }

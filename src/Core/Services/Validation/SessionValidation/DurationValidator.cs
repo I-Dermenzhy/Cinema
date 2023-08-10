@@ -3,6 +3,7 @@
 using Microsoft.Extensions.Logging;
 
 namespace Services.Validation.SessionValidation;
+
 internal sealed class DurationValidator : ChainValidator<Session>
 {
     private readonly ILogger? _logger;
@@ -14,6 +15,8 @@ internal sealed class DurationValidator : ChainValidator<Session>
 
     public override bool Validate(Session session)
     {
+        ArgumentNullException.ThrowIfNull(session, nameof(session));
+
         var duration = session.Duration;
 
         if (duration.Start >= duration.End)

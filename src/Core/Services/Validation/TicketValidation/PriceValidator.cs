@@ -1,7 +1,9 @@
 ﻿using Domain.Models;
+
 using Microsoft.Extensions.Logging;
 
 namespace Services.Validation.TicketValidation;
+
 internal sealed class PriceValidator<T> : ChainValidator<T> where T : Ticket
 {
     private readonly ILogger? _logger;
@@ -12,6 +14,8 @@ internal sealed class PriceValidator<T> : ChainValidator<T> where T : Ticket
 
     public override bool Validate(T ticket)
     {
+        ArgumentNullException.ThrowIfNull(ticket, nameof(ticket));
+
         decimal price = ticket.Price;
 
         if (price <= 0)

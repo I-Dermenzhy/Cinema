@@ -3,6 +3,7 @@
 using Microsoft.Extensions.Logging;
 
 namespace Services.Validation.SeatValidation;
+
 internal sealed class PlaceValidator : ChainValidator<Seat>
 {
     private readonly ILogger? _logger;
@@ -11,6 +12,8 @@ internal sealed class PlaceValidator : ChainValidator<Seat>
 
     public override bool Validate(Seat seat)
     {
+        ArgumentNullException.ThrowIfNull(seat, nameof(seat));
+
         int place = seat.Place;
 
         if (place <= 1)

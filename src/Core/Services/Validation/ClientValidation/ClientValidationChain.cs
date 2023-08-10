@@ -3,12 +3,15 @@
 using Microsoft.Extensions.Logging;
 
 namespace Services.Validation.ClientValidation;
+
 public sealed class ClientValidationChain : IValidationChain<Client, ClientValidationChain>
 {
     private readonly List<ChainValidator<Client>> _validators = new();
 
     public ClientValidationChain AddValidator(ChainValidator<Client> validator)
     {
+        ArgumentNullException.ThrowIfNull(validator, nameof(validator));
+
         _validators.Add(validator);
         return this;
     }

@@ -15,7 +15,8 @@ public sealed class TicketRepository : ITicketRepository
 {
     private readonly CinemaDbContext _dbContext;
 
-    public TicketRepository(CinemaDbContext dbContext) => _dbContext = dbContext;
+    public TicketRepository(CinemaDbContext dbContext) =>
+        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
     public async Task<IEnumerable<Ticket>> GetAllAsync() =>
         await _dbContext.Tickets
@@ -41,6 +42,8 @@ public sealed class TicketRepository : ITicketRepository
 
     public async Task<Guid> InsertAsync(Ticket ticket)
     {
+        ArgumentNullException.ThrowIfNull(ticket, nameof(ticket));
+
         await _dbContext.Tickets.AddAsync(ticket);
         await AddRelatedEntitiesAsync(ticket);
 
@@ -59,12 +62,16 @@ public sealed class TicketRepository : ITicketRepository
 
     public async Task RemoveAsync(Ticket ticket)
     {
+        ArgumentNullException.ThrowIfNull(ticket, nameof(ticket));
+
         _dbContext.Tickets.Remove(ticket);
         await _dbContext.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Ticket ticket)
     {
+        ArgumentNullException.ThrowIfNull(ticket, nameof(ticket));
+
         if (!_dbContext.Tickets.Contains(ticket))
             throw new ModelNotFoundException<Ticket>(ticket);
 

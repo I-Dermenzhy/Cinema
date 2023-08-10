@@ -4,12 +4,20 @@ namespace Domain.Models;
 
 public class Client : IModel
 {
-    public Client() { }
+    public Client()
+    {
+    }
 
     [SetsRequiredMembers]
-    public Client(string email) => Email = email;
+    public Client(string email)
+    {
+        if (string.IsNullOrWhiteSpace(email))
+            throw new ArgumentException($"'{nameof(email)}' cannot be null or whitespace.", nameof(email));
 
-    public Guid Id { get; set; }
+        Email = email;
+    }
+
+    public Guid Id { get; init; }
     public required string Email { get; set; }
     public IList<Ticket> Tickets { get; init; } = new List<Ticket>();
 

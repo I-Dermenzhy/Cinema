@@ -3,6 +3,7 @@
 using Microsoft.Extensions.Logging;
 
 namespace Services.Validation.MovieValidation;
+
 internal sealed class ProducerValidator : ChainValidator<Movie>
 {
     private readonly ILogger? _logger;
@@ -11,6 +12,8 @@ internal sealed class ProducerValidator : ChainValidator<Movie>
 
     public override bool Validate(Movie movie)
     {
+        ArgumentNullException.ThrowIfNull(movie, nameof(movie));
+
         string producer = movie.Producer;
 
         if (string.IsNullOrWhiteSpace(producer))

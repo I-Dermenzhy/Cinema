@@ -10,91 +10,75 @@ public sealed class TimeRangeTests
     [Test]
     public void Constructor_EndPrecedesStart_ThrowsArgumentException()
     {
-        // Arrange 
         DateTime start = DateTime.MaxValue;
         DateTime end = DateTime.MinValue;
 
-        // Act and Assert
         Assert.That(() => new TimeRange(start, end), Throws.InstanceOf<ArgumentException>());
     }
 
     [Test]
     public void Constructor_EndEqualsStart_ThrowsArgumentException()
     {
-        // Arrange 
         DateTime start = DateTime.MaxValue;
         DateTime end = start;
 
-        // Act and Assert
         Assert.That(() => new TimeRange(start, end), Throws.InstanceOf<ArgumentException>());
     }
 
     [Test]
     public void Equals_ObjectWithSameValues_ReturnsTrue()
     {
-        // Arrange 
-        var start = new DateTime(2023, 1, 1);
-        var end = new DateTime(2023, 1, 2);
+        var start = DateTime.MinValue;
+        var end = DateTime.MaxValue;
 
         var timeRange1 = new TimeRange(start, end);
         var timeRange2 = new TimeRange(start, end);
 
-        // Act
         var result = timeRange1.Equals((object)timeRange2);
 
-        // Assert
         Assert.That(result, Is.True);
     }
 
     [Test]
     public void Equals_ObjectWithDifferentValues_ReturnsFalse()
     {
-        // Arrange 
-        var timeRange1 = new TimeRange(new DateTime(2023, 1, 1), new DateTime(2023, 1, 2));
-        var timeRange2 = new TimeRange(new DateTime(2023, 1, 1), new DateTime(2023, 1, 3));
+        var timeRange1 = new TimeRange(DateTime.MinValue, DateTime.Now);
+        var timeRange2 = new TimeRange(DateTime.MinValue, DateTime.MaxValue);
 
-        // Act
         var result = timeRange1.Equals((object)timeRange2);
 
-        // Assert
         Assert.That(result, Is.False);
     }
 
     [Test]
     public void Equals_SameTimeRange_ReturnsTrue()
     {
-        // Arrange
-        var start = new DateTime(2023, 1, 1);
-        var end = new DateTime(2023, 1, 2);
+        var start = DateTime.MinValue;
+        var end = DateTime.MaxValue;
         var timeRange = new TimeRange(start, end);
 
-        // Act
         var result = timeRange.Equals(timeRange);
 
-        // Assert
         Assert.That(result, Is.True);
     }
 
     [Test]
     public void Equals_Null_ReturnsFalse()
     {
-        // Arrange
-        var start = new DateTime(2023, 1, 1);
-        var end = new DateTime(2023, 1, 2);
+        var start = DateTime.MinValue;
+        var end = DateTime.MaxValue;
         var timeRange = new TimeRange(start, end);
 
-        // Act
         var result = timeRange.Equals(null);
 
-        // Assert
         Assert.That(result, Is.False);
     }
 
     [Test]
     public void GetHashCode_TwoEqualTimeRanges_ReturnsSameHashCode()
     {
-        var start = new DateTime(2023, 1, 1);
-        var end = new DateTime(2023, 1, 2);
+        var start = DateTime.MinValue;
+        var end = DateTime.MaxValue;
 
         var timeRange1 = new TimeRange(start, end);
         var timeRange2 = new TimeRange(start, end);
@@ -108,8 +92,8 @@ public sealed class TimeRangeTests
     [Test]
     public void GetHashCode_TwoDifferentTimeRanges_ReturnsDifferentHashCodes()
     {
-        var timeRange1 = new TimeRange(new DateTime(2023, 1, 1), new DateTime(2023, 1, 2));
-        var timeRange2 = new TimeRange(new DateTime(2023, 1, 1), new DateTime(2023, 1, 3));
+        var timeRange1 = new TimeRange(DateTime.MinValue, DateTime.Now);
+        var timeRange2 = new TimeRange(DateTime.MinValue, DateTime.MaxValue);
 
         var hashCode1 = timeRange1.GetHashCode();
         var hashCode2 = timeRange2.GetHashCode();
@@ -204,8 +188,8 @@ public sealed class TimeRangeTests
     [Test]
     public void Clone_WhenCalled_ReturnsNewTimeRangeWithSameValues()
     {
-        var start = new DateTime(2023, 1, 1);
-        var end = new DateTime(2023, 1, 2);
+        var start = DateTime.MinValue;
+        var end = DateTime.MaxValue;
 
         var timeRange = new TimeRange(start, end);
 

@@ -15,7 +15,8 @@ public sealed class DiscountRepository : IDiscountRepository
 {
     private readonly CinemaDbContext _dbContext;
 
-    public DiscountRepository(CinemaDbContext dbContext) => _dbContext = dbContext;
+    public DiscountRepository(CinemaDbContext dbContext) =>
+        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
     public async Task<IEnumerable<Discount>> GetAllAsync() =>
         await _dbContext.Discounts.ToListAsync();
@@ -35,8 +36,11 @@ public sealed class DiscountRepository : IDiscountRepository
 
     public async Task<Guid> InsertAsync(Discount discount)
     {
+        ArgumentNullException.ThrowIfNull(discount, nameof(discount));
+
         _dbContext.Discounts.Add(discount);
         await _dbContext.SaveChangesAsync();
+
         return discount.Id;
     }
 
@@ -50,12 +54,16 @@ public sealed class DiscountRepository : IDiscountRepository
 
     public async Task RemoveAsync(Discount discount)
     {
+        ArgumentNullException.ThrowIfNull(discount, nameof(discount));
+
         _dbContext.Discounts.Remove(discount);
         await _dbContext.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Discount discount)
     {
+        ArgumentNullException.ThrowIfNull(discount, nameof(discount));
+
         if (!_dbContext.Discounts.Contains(discount))
             throw new ModelNotFoundException<Discount>(discount);
 

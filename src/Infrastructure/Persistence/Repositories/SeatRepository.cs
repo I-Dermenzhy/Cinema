@@ -15,7 +15,8 @@ public sealed class SeatRepository : ISeatRepository
 {
     private readonly CinemaDbContext _dbContext;
 
-    public SeatRepository(CinemaDbContext dbContext) => _dbContext = dbContext;
+    public SeatRepository(CinemaDbContext dbContext) =>
+        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
 
     public async Task<IEnumerable<Seat>> GetAllAsync() =>
         await _dbContext.Seats.ToListAsync();
@@ -31,6 +32,8 @@ public sealed class SeatRepository : ISeatRepository
 
     public async Task<Guid> InsertAsync(Seat seat)
     {
+        ArgumentNullException.ThrowIfNull(seat, nameof(seat));
+
         _dbContext.Seats.Add(seat);
         await _dbContext.SaveChangesAsync();
 
@@ -47,12 +50,16 @@ public sealed class SeatRepository : ISeatRepository
 
     public async Task RemoveAsync(Seat seat)
     {
+        ArgumentNullException.ThrowIfNull(seat, nameof(seat));
+
         _dbContext.Seats.Remove(seat);
         await _dbContext.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Seat seat)
     {
+        ArgumentNullException.ThrowIfNull(seat, nameof(seat));
+
         if (!_dbContext.Seats.Contains(seat))
             throw new ModelNotFoundException<Seat>(seat);
 

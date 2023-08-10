@@ -3,10 +3,13 @@
 using Domain.Models;
 
 namespace Services.Validation;
+
 public abstract class ChainValidator<T> : IValidator<T> where T : IModel
 {
     public ChainValidator<T> SetNext(ChainValidator<T> validator)
     {
+        ArgumentNullException.ThrowIfNull(validator, nameof(validator));
+
         NextValidator = validator;
         return this;
     }

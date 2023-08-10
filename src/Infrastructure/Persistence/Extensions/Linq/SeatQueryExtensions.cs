@@ -7,6 +7,9 @@ internal static class SeatQueryExtensions
 {
     public static IQueryable<Seat> ApplyFilters(this IQueryable<Seat> query, SeatFilters filters)
     {
+        ArgumentNullException.ThrowIfNull(query, nameof(query));
+        ArgumentNullException.ThrowIfNull(filters, nameof(filters));
+
         if (filters.Row.HasValue)
             query = query.Where(s => s.Row == filters.Row);
 

@@ -6,6 +6,8 @@ namespace Services.Validation.SeatValidation;
 
 internal sealed class RowValidator : ChainValidator<Seat>
 {
+    private const int MaxPlace = 50;
+
     private readonly ILogger? _logger;
 
     public RowValidator(ILogger? logger = null) => _logger = logger;
@@ -16,15 +18,15 @@ internal sealed class RowValidator : ChainValidator<Seat>
 
         int row = seat.Row;
 
-        if (row <= 1)
+        if (row < 1)
         {
-            _logger?.LogError("A seat's row number must be a positive integer");
+            _logger?.LogError("A seat's row number must be a positive integer, but was: {place}", row);
             return false;
         }
 
-        if (row > 50)
+        if (row > MaxPlace)
         {
-            _logger?.LogError("A seat's row number cannot be larger than 50");
+            _logger?.LogError("A seat's row number cannot be larger than {max place value}", MaxPlace);
             return false;
         }
 

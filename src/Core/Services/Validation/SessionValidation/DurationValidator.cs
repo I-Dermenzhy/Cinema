@@ -21,7 +21,7 @@ internal sealed class DurationValidator : ChainValidator<Session>
 
         if (duration.Start >= duration.End)
         {
-            _logger?.LogError($"The start time: {duration.Start} cannot be after (or equal to) the end time: {duration.End}");
+            _logger?.LogError("The start time: {start time} cannot be after (or equal to) the end time: {end time}", duration.Start, duration.End);
             return false;
         }
 
@@ -29,13 +29,13 @@ internal sealed class DurationValidator : ChainValidator<Session>
 
         if (startDate < _minDateTime)
         {
-            _logger?.LogError($"Only session from {_minDateTime.ToShortDateString()} are stored");
+            _logger?.LogError("Only session from {min date} are stored", _minDateTime.ToShortDateString());
             return false;
         }
 
         if (startDate > _maxDateTime)
         {
-            _logger?.LogError($"Only session up to {_maxDateTime.ToShortDateString()} are stored");
+            _logger?.LogError("Only session up to {max date} are stored", _maxDateTime.ToShortDateString());
             return false;
         }
 

@@ -6,6 +6,8 @@ namespace Services.Validation.MovieValidation;
 
 internal sealed class ProducerValidator : ChainValidator<Movie>
 {
+    private const int MaxLength = 50;
+
     private readonly ILogger? _logger;
 
     public ProducerValidator(ILogger? logger = null) => _logger = logger;
@@ -22,9 +24,9 @@ internal sealed class ProducerValidator : ChainValidator<Movie>
             return false;
         }
 
-        if (producer.Length > 50)
+        if (producer.Length > MaxLength)
         {
-            _logger?.LogError("A movie producer's name must consist of no more than 60 symbols");
+            _logger?.LogError("A movie producer's name must consist of no more than {max length} symbols", MaxLength);
             return false;
         }
 

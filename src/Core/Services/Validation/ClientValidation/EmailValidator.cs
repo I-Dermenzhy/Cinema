@@ -8,6 +8,8 @@ namespace Services.Validation.ClientValidation;
 
 internal sealed partial class EmailValidator : ChainValidator<Client>
 {
+    private const int MaxLength = 60;
+
     private readonly ILogger? _logger;
 
     public EmailValidator(ILogger? logger = null) => _logger = logger;
@@ -24,9 +26,9 @@ internal sealed partial class EmailValidator : ChainValidator<Client>
             return false;
         }
 
-        if (email.Length > 60)
+        if (email.Length > MaxLength)
         {
-            _logger?.LogError("An email must consist of no more than 60 symbols");
+            _logger?.LogError("An email must consist of no more than {max length} symbols", MaxLength);
             return false;
         }
 

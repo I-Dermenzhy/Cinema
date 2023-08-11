@@ -6,6 +6,8 @@ namespace Services.Validation.MovieValidation;
 
 internal sealed class GenreValidator : ChainValidator<Movie>
 {
+    private const int MaxLength = 50;
+
     private readonly List<string> _movieGenres = new()
     {
         "Action", "Adventure", "Animation", "Comedy", "Crime", "Documentary", "Drama",
@@ -29,15 +31,15 @@ internal sealed class GenreValidator : ChainValidator<Movie>
             return false;
         }
 
-        if (genre.Length > 50)
+        if (genre.Length > MaxLength)
         {
-            _logger?.LogError("A movie genre must consist of no more than 60 symbols");
+            _logger?.LogError("A movie genre must consist of no more than {max length} symbols", MaxLength);
             return false;
         }
 
         if (!_movieGenres.Contains(genre))
         {
-            _logger?.LogError("A movie genre was not recognized");
+            _logger?.LogError("A movie genre: {genre} was not recognized", genre);
             return false;
         }
 

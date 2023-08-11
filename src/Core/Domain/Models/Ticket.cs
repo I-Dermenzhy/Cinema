@@ -20,10 +20,10 @@ public class Ticket : IModel, IDiscountable
     }
 
     [SetsRequiredMembers]
-    public Ticket(Client client, Session session, Seat seat, ITicketEvaluator<Ticket> ticketEvaluation)
+    public Ticket(Client client, Session session, Seat seat, ITicketEvaluator<Ticket> ticketEvaluator)
         : this(client, session, seat)
     {
-        Price = ticketEvaluation.EvaluateCost(this);
+        Price = ticketEvaluator.EvaluateCost(this);
     }
 
     [SetsRequiredMembers]

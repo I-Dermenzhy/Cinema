@@ -128,10 +128,8 @@ internal class App
             client: client,
             session: chosenSession,
             seat: chosenSeat,
-            price: 0
+            ticketEvaluator: _ticketEvaluator
         );
-
-        //ticket.Price = _ticketEvaluator.EvaluateCost(ticket);
 
         DisplayTicketInformation(ticket);
 
